@@ -2,3 +2,19 @@ name: FarmcraftEco
 main: fr.farmcraft.farmcraftEco.FarmcraftEco
 version: 0.0.1
 author: Farmcraft
+commands:
+   bank:
+     description: Acceder au compte de ville.
+     permission: farmcraft.bank
+     usage: |
+       /<command> [retrait/depot] [ville] [montant]
+permissions:
+   FarmcraftEco.user.bank.info:
+     description: acces info bank
+     default: true
+   FarmcraftEco.user.bank.retrait:
+     description: retrait bank
+     default: false
+   FarmcraftEco.user.bank.depot:
+     description: depot bank
+     default: false
