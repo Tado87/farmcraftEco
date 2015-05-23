@@ -67,8 +67,6 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
     Player player = (Player)sender;
      
     if (command.getName().equalsIgnoreCase("bank")) {
-      String bank = args[2];
-      Double Montant = Double.valueOf(Double.parseDouble(args[3]));
       if (args.length == 2) {
         if ((args[1].equalsIgnoreCase("info")) && 
           (perms.has(player, "FarmcraftEco.user.bank.info." + args[2]))) {
