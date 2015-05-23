@@ -1,0 +1,6 @@
+name: FarmcraftEco
+main: fr.farmcraft.farmcraftEco.FarmcraftEco
+version: 0.1.2
+author: Farmcraft
+wettite: http://Farmcraft.fr/
+commands:
