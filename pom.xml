@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.farmcraft</groupId>
   <artifactId>FarmcraftEco</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
     <repositories>  
 		<repository>
             	<id>spigot-repo</id>
@@ -64,4 +64,8 @@
 </resource>
 </resources>
 </build>
+	<organization>
+		<name>Farmcraft</name>
+		<url>farmcraft.fr</url>
+	</organization>
 </project>

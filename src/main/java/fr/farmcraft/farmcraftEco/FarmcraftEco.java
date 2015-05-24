@@ -1,24 +1,31 @@
  package fr.farmcraft.farmcraftEco;
  
  import java.util.logging.Logger;
- import org.bukkit.Server;
- import org.bukkit.command.Command;
- import org.bukkit.command.CommandSender;
- import org.bukkit.entity.Player;
- import org.bukkit.plugin.PluginDescriptionFile;
- import org.bukkit.plugin.PluginManager;
- import org.bukkit.plugin.RegisteredServiceProvider;
- import org.bukkit.plugin.ServicesManager;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicesManager;
  
+
+
+
  import net.milkbowl.vault.economy.Economy;
- import net.milkbowl.vault.economy.EconomyResponse;
- import net.milkbowl.vault.permission.Permission;
+import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.permission.Permission;
  
  public class FarmcraftEco extends org.bukkit.plugin.java.JavaPlugin implements org.bukkit.event.Listener
  {
 private static final Logger log = Logger.getLogger("Minecraft");
 public static Economy econ = null;
- public static Permission perms = null;
+public static Permission perms = null;
    
    public void onDisable()
    {
@@ -28,6 +35,7 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
    
    public void onEnable()
    {
+	setupEconomy();
 	if (!setupEconomy()) {
        System.out.println("Le plugin FarmCraftEco se coupe");
        log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", new Object[] { getDescription().getName() }));
@@ -65,77 +73,81 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
      }
      
     Player player = (Player)sender;
-     
     if (command.getName().equalsIgnoreCase("bank")) {
+    	OfflinePlayer account = Bukkit.getServer().getOfflinePlayer(args[1]);
+    	String accountName = account.getName();
       if (args.length == 2) {
-        if ((args[1].equalsIgnoreCase("info")) && 
-          (perms.has(player, "FarmcraftEco.user.bank.info." + args[2]))) {
-          sender.sendMessage(String.format("Cette banque a actuellement %s", new Object[] { econ.format(econ.getBalance(args[3])) }));
-         }
-         
+        if ((args[0].equalsIgnoreCase("info"))){
+        	if (perms.has(player, "FarmcraftEco.user.bank." + accountName)){
+        		sender.sendMessage(String.format(ChatColor.GREEN + "La banque " + accountName + " a actuellement " + ChatColor.BLUE +  "%s", new Object[] { econ.format(econ.getBalance(account)) }));
+        		sender.sendMessage(String.format(ChatColor.GREEN + "Vous avez actuellement " + ChatColor.BLUE +  "%s", new Object[] { econ.format(econ.getBalance(player.getName())) }));
+        	}
+        	else {
+        		sender.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions ", new Object[0]));
+        	}
+        }
         return true;
        }
       if (args.length == 3) {
-        if (args[0].equalsIgnoreCase("retrait")) {
-          if (perms.has(player, "FarmcraftEco.user.bank." + args[2])) {
-            sender.sendMessage(String.format("Vous avez acutellement %s", new Object[] { econ.format(econ.getBalance(player.getName())) }));
-            if (econ.has(player, Double.parseDouble(args[3]))) {
-              EconomyResponse t = econ.withdrawPlayer(args[2], Double.parseDouble(args[3]));
-              if (t.transactionSuccess()) {
-                EconomyResponse r = econ.depositPlayer(player, Double.parseDouble(args[3]));
-                if (r.transactionSuccess()) {
-                  sender.sendMessage(String.format("Vous avez retirez %s et avez maintenant %s", new Object[] { econ.format(r.amount), econ.format(r.balance) }));
-                 }
-                 else {
-                  sender.sendMessage(String.format("ERROR: %s", new Object[] { r.errorMessage }));
-                 }
-               }
-               else {
-                sender.sendMessage(String.format("ERROR: %s", new Object[] { t.errorMessage }));
-               }
-             }
-             else {
-              sender.sendMessage(String.format("Fonds insuffisant!!!", new Object[0]));
-             }
+        if (args[0].equalsIgnoreCase("retrait")){
+        	if (perms.has(player, "FarmcraftEco.user.bank." + accountName)){
+				sender.sendMessage(String.format(ChatColor.GREEN + "Vous aviez actuellement " + ChatColor.BLUE +  "%s", new Object[] { econ.format(econ.getBalance(player.getName())) }));
+				if (econ.has(account, Double.parseDouble(args[2]))) {
+					EconomyResponse t = econ.withdrawPlayer(account, Double.parseDouble(args[2]));
+					if (t.transactionSuccess()) {
+						EconomyResponse r = econ.depositPlayer(player, Double.parseDouble(args[2]));
+						if (r.transactionSuccess()) {
+							sender.sendMessage(String.format(ChatColor.GREEN + "Vous avez retirez " + ChatColor.BLUE +  "$" + args[2] + ChatColor.GREEN + " et avez maintenant " + ChatColor.BLUE + " %s", new Object[] { econ.format(econ.getBalance(player.getName())) }));
+						}
+						else {
+                  			sender.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { r.errorMessage }));
+						}
+					}
+					else {
+						sender.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { t.errorMessage }));
+					}
+				}
+				else {
+					sender.sendMessage(String.format(ChatColor.RED + "Fonds insuffisant!!!", new Object[0]));
+				}
            }
-           else {
-            sender.sendMessage(String.format("Vous navez pas les permissions ", new Object[0]));
-           }
+		    else{
+				sender.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions pour la bank " + accountName, new Object[0]));
+		    }
           return true;
          }
-        if (args[0].equalsIgnoreCase("depot")) {
-          if (perms.has(player, "FarmcraftEco.user.bank." + args[2])) {
-            sender.sendMessage(String.format("Vous avez acutellement %s et La bank a %s", new Object[] { econ.format(econ.getBalance(player.getName(), econ.format(econ.getBalance(args[3])))) }));
-            if (econ.has(args[2], Double.parseDouble(args[3]))) {
-              EconomyResponse t = econ.withdrawPlayer(player, Double.parseDouble(args[3]));
-              if (t.transactionSuccess()) {
-                EconomyResponse r = econ.depositPlayer(args[2], Double.parseDouble(args[3]));
-                if (r.transactionSuccess()) {
-                  sender.sendMessage(String.format("Vous avez deposez %s et avez maintenant %s", new Object[] { econ.format(r.amount), econ.format(r.balance) }));
-                 }
-                 else {
-                  sender.sendMessage(String.format("ERROR: %s", new Object[] { r.errorMessage }));
-                 }
-               }
-               else {
-                sender.sendMessage(String.format("ERROR: %s", new Object[] { t.errorMessage }));
-               }
-             }
-             else {
-              sender.sendMessage(String.format("Fonds insuffisant!!!", new Object[0]));
-             }
-           }
+        if (args[0].equalsIgnoreCase("depot")){
+        	if (perms.has(player, "FarmcraftEco.user.bank." + accountName)){
+				sender.sendMessage(String.format(ChatColor.GREEN + "Vous aviez actuellement " + ChatColor.BLUE +  "%s", new Object[] { econ.format(econ.getBalance(player.getName())) }));
+				if (econ.has(player, Double.parseDouble(args[2]))) {
+					EconomyResponse t = econ.withdrawPlayer(player, Double.parseDouble(args[2]));
+					if (t.transactionSuccess()) {
+						EconomyResponse r = econ.depositPlayer(account, Double.parseDouble(args[2]));
+						if (r.transactionSuccess()) {
+							sender.sendMessage(String.format(ChatColor.GREEN + "Vous avez deposez " + ChatColor.BLUE +  "$" + args[2] + ChatColor.GREEN +  " et avez maintenant " + ChatColor.BLUE +  "%s", new Object[] { econ.format(econ.getBalance(player.getName())) }));
+						}
+						else {
+							sender.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { r.errorMessage }));
+						}
+					}
+					else {
+						sender.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { t.errorMessage }));
+					}
+				}
+				else {
+				sender.sendMessage(String.format(ChatColor.RED + "Fonds insuffisant!!!", new Object[0]));
+				}
+			}
            else {
-            sender.sendMessage(String.format("Vous navez pas les permissions ", new Object[0]));
+            sender.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions pour la bank " + accountName, new Object[0]));
            }
           return true;
-         }
-       }
+        }
        else {
-        sender.sendMessage(String.format("usage /bank [retrait/depot] [Ville] [Montant] ", new Object[0]));
+        sender.sendMessage(String.format(ChatColor.GRAY + "usage /bank [retrait/depot/info] [Ville] ([Montant]) ", new Object[0]));
         return true;
        }
-     }
+      }
+    }
     return false;
-   }
- }
+}}
