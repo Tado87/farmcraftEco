@@ -13,5 +13,5 @@ permissions:
 		description: Autorise les joueurs a acheter des terrains
 		default : true
 	FarmcraftEco.admin.Region.create:
-		description: Autorise la creation des panneauw de vente de terrain
+		description: Autorise la creation des panneaux de vente de terrain
 		default : op

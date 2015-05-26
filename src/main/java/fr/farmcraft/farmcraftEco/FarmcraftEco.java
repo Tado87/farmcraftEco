@@ -1,6 +1,9 @@
  package fr.farmcraft.farmcraftEco;
- 
- import java.util.logging.Logger;
+ import fr.farmcraft.farmcraftEco.Fonction.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,29 +18,34 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
- 
+import org.bukkit.plugin.Plugin;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
  
 
+
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
-import org.bukkit.plugin.Plugin;
-
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 
 import static com.sk89q.worldguard.bukkit.BukkitUtil.*;
 
- public class FarmcraftEco extends org.bukkit.plugin.java.JavaPlugin implements Listener
+ public class FarmcraftEco extends JavaPlugin implements Listener
  {
 public static final Logger log = Logger.getLogger("Minecraft");
+
+public static final Boolean YmlWriterReturn = null;
+public static final Boolean YmlReaderReturn = null;
+
 public static Economy econ = null;
 public static Permission perms = null;
+
 public Plugin plugin = this;
-   
+  
+
+
    public void onDisable()
    {
 System.out.println("Lancement de FarmcraftEco  Version 0.0.1");
@@ -57,8 +65,8 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 	
      setupPermissions();
      
-     this.getCommand("bank").setExecutor(new BankCommandExecutor(this));
-     this.getServer().getPluginManager().registerEvents(new RegionListener(this), this);
+     this.getCommand("bank").setExecutor(new FEcommand(this));
+     this.getServer().getPluginManager().registerEvents(new FElistener(this), this);
    }
    
    public boolean setupEconomy()
