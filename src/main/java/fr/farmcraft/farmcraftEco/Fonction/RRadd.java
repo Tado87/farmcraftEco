@@ -1,7 +1,11 @@
 package fr.farmcraft.farmcraftEco.Fonction;
 
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -21,8 +25,9 @@ public class RRadd {
 		}
 		
 		
-		public static Boolean RentRegionAdd(Player player,Event event) {
-
+		public static Boolean RentRegionAdd(Player player,Event event) throws SQLException {
+			
+			
         	if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.Region.create")){
         		
         			Location tmpLoc = ((Block) event).getLocation();
@@ -32,26 +37,19 @@ public class RRadd {
         			String positionZ = String.valueOf(tmpLoc.getBlockZ());
         		
         		
-        			Double prix = Double.parseDouble(((Sign) event).getLine(2));
+        			String prix = (((Sign) event).getLine(2));
         			String[] data = ((Sign) event).getLine(3).split("/");
         			String compte = data[1];
-        			String time = data[0];
+        			String rentTime = data[0];
         			
         			World world = player.getWorld();
         			String rg = ((Sign) event).getLine(1);
         			String World = world.toString();
         			
-
-        			YamlWriter.YmlWriter(prix, compte, time, World, rg, positionX, positionY, positionZ);
         			
-        			if (FarmcraftEco.YmlWriterReturn == true){
-        				
-            				((Sign) event).setLine(0, ChatColor.BLUE + "[RentRegion]");
-            				((Sign) event).setLine(3, time);
-            				
-            				player.sendMessage(String.format(ChatColor.RED + "RentRegion panneau creer", new Object[0]));
-            			
-        			}
+        				Statement addrental = Plugin.connection.createStatement();
+						addrental.executeUpdate("INSERT INTO `FarmcraftEco`.`RentRegion` (`ExpirDate`, `Terrain`, `Compte`, `RentTime`, `Prix`, `Playername`, `World`, `positionX`, `positionY`, `positionZ`) VALUES (NULL, " + rg + ", " + compte + ", " + rentTime + ", " + prix + ", NULL, " + World + ", " + positionX + ", " + positionY + ", " + positionZ + ");");
+						
         			
         			return true;
         	}

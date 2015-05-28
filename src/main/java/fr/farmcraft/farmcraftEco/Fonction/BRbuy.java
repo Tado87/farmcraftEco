@@ -22,7 +22,6 @@ public class BRbuy {
 
 		public static Boolean BuyRegionBuy(Player player, String playerName, Sign s) {
 			
-        if(s.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[BuyRegion]")){
         	
         	
         		if (FarmcraftEco.perms.has(player, "FarmcraftEco.user.Region.buy")){
@@ -80,7 +79,6 @@ public class BRbuy {
         			else{
         					player.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions", new Object[0]));
         			}
-        }
         return true;
 		
 	}

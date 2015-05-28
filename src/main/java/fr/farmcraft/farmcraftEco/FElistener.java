@@ -1,6 +1,8 @@
 package fr.farmcraft.farmcraftEco;
 
 
+import java.sql.SQLException;
+
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.ChatColor;
@@ -31,6 +33,7 @@ import static com.sk89q.worldguard.bukkit.BukkitUtil.*;
 import fr.farmcraft.farmcraftEco.Fonction.BRadd;
 import fr.farmcraft.farmcraftEco.Fonction.BRbuy;
 import fr.farmcraft.farmcraftEco.Fonction.RRadd;
+import fr.farmcraft.farmcraftEco.Fonction.RRbuy;
 
 
 
@@ -40,7 +43,7 @@ public class FElistener implements Listener{
 		Plugin = Instance;
 	}
 	@EventHandler
-    public void onInteract(PlayerInteractEvent e){
+    public void onInteract(PlayerInteractEvent e) throws SQLException{
 		
         Player player = e.getPlayer();
         String playerName = player.getName();
@@ -49,8 +52,14 @@ public class FElistener implements Listener{
             if (e.getClickedBlock().getState() instanceof Sign) {
                
                 Sign s = (Sign) e.getClickedBlock().getState();
-             
-                BRbuy.BuyRegionBuy(player, playerName, s);
+                
+                if(s.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[BuyRegion]")){
+                	BRbuy.BuyRegionBuy(player, playerName, s);
+                }
+                else if(s.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[RentRegion]")){
+                	RRbuy.RentRegionBuy(player, playerName, s);
+                }
+                
                 
 
             }
@@ -61,20 +70,23 @@ public class FElistener implements Listener{
     }
         
 	@EventHandler(priority=EventPriority.HIGH)
-    public void onSignChange(SignChangeEvent event){
+    public void onSignChange(SignChangeEvent event) throws SQLException{
+		
         Player player = event.getPlayer();
         if(event.getLine(0).equalsIgnoreCase("[BuyRegion]")){
         	
         	BRadd.BuyRegionAdd(player, event);
+        	
         	if (BRadd.BuyRegionAdd(player, event) != true){
         		event.setCancelled(true);
         	}
         }
         if(event.getLine(0).equalsIgnoreCase("[RentRegion]")){
         	
-    		RRadd.RentRegionAdd(player, event);
+    		RRadd.RentRegionAdd(player,event);
     		
-    		if (RRadd.RentRegionAdd(player, event) != true){
+    		
+    		if (RRadd.RentRegionAdd(player,event) != true){
         		event.setCancelled(true);
         	}
     		
