@@ -30,26 +30,31 @@ public class RRadd {
 			
         	if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.Region.create")){
         		
-        			Location tmpLoc = ((Block) event).getLocation();
+        			Location tmpLoc = ((Block) event).getLocation(); // Getting coord 
         		
-        			String positionX = String.valueOf(tmpLoc.getBlockX());
-        			String positionY = String.valueOf(tmpLoc.getBlockY());
-        			String positionZ = String.valueOf(tmpLoc.getBlockZ());
+        			int positionX = tmpLoc.getBlockX();
+        			int positionY = tmpLoc.getBlockY();
+        			int positionZ = tmpLoc.getBlockZ();
         		
         		
         			String prix = (((Sign) event).getLine(2));
-        			String[] data = ((Sign) event).getLine(3).split("/");
+        			String[] data = ((Sign) event).getLine(3).split("/");  // Splitting account and time
         			String compte = data[1];
         			String rentTime = data[0];
         			
         			World world = player.getWorld();
-        			String rg = ((Sign) event).getLine(1);
+        			String rg = ((Sign) event).getLine(1);			// getting rg name and worldname
         			String World = world.toString();
         			
         			
-        				Statement addrental = Plugin.connection.createStatement();
+        				Statement addrental = Plugin.connection.createStatement();  // bdd add
 						addrental.executeUpdate("INSERT INTO `FarmcraftEco`.`RentRegion` (`ExpirDate`, `Terrain`, `Compte`, `RentTime`, `Prix`, `Playername`, `World`, `positionX`, `positionY`, `positionZ`) VALUES (NULL, " + rg + ", " + compte + ", " + rentTime + ", " + prix + ", NULL, " + World + ", " + positionX + ", " + positionY + ", " + positionZ + ");");
+					
+					((Sign) event).setLine(0, ChatColor.BLUE + "[RentRegion]");  // sign update
 						
+					((Sign) event).setLine(3, rentTime);
+						
+					((Sign) event).update();
         			
         			return true;
         	}

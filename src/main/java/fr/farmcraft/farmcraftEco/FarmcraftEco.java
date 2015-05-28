@@ -150,7 +150,7 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 	 		e.printStackTrace();
 	 	}
 	   Statement createTable = connection.createStatement();
-	     createTable.executeUpdate("CREATE TABLE IF NOT EXISTS RentRegion (ExpirDate DATETIME, Terrain VARCHAR(25), Compte VARCHAR(25), RentTime VARCHAR(25), Prix VARCHAR(25), Playername VARCHAR(25), World VARCHAR(25), positionX VARCHAR(35),  positionY VARCHAR(35),  positionZ VARCHAR(35))");
+	     createTable.executeUpdate("CREATE TABLE IF NOT EXISTS RentRegion (ExpirDate DATETIME, Terrain VARCHAR(25), Compte VARCHAR(25), RentTime VARCHAR(25), Prix VARCHAR(25), Playername VARCHAR(25), World VARCHAR(25), positionX INT(35),  positionY INT(35),  positionZ INT(35))");
 	   
    }
 }

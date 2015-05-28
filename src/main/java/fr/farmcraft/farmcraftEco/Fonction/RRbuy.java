@@ -40,7 +40,6 @@ public class RRbuy {
 					Statement getRental = Plugin.connection.createStatement();
 					ResultSet GR = getRental.executeQuery("SELECT * FROM FarmcraftEco WHERE Terrain =" + terrain + "");
 					String compte = GR.getString("Compte");
-					
 				
 				WorldGuardPlugin worldGuard = Plugin.getWorldGuard();
 				

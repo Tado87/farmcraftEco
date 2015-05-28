@@ -36,22 +36,23 @@ public class BRbuy {
         				WorldGuardPlugin worldGuard = Plugin.getWorldGuard();
         				
         				RegionManager regionManager = worldGuard.getRegionManager(player.getWorld());
+        				
         		
-        				if (FarmcraftEco.econ.has(player, Double.parseDouble(prix))) {
+        				if (FarmcraftEco.econ.has(player, Double.parseDouble(prix))) {  												// player transfert
         			
         						EconomyResponse t = FarmcraftEco.econ.withdrawPlayer(player, Double.parseDouble(prix));
 					
-        						if (t.transactionSuccess()) {
+        						if (t.transactionSuccess()) {   																		// compte transfert
         							
         								EconomyResponse r = FarmcraftEco.econ.depositPlayer(compte, Double.parseDouble(prix));
 						
         								if (r.transactionSuccess()) {
         									
-        										regionManager.getRegion(terrain).getOwners().addPlayer(player.getName());
-        										
+        										regionManager.getRegion(terrain).getOwners().addPlayer(player.getName()); 				// add owner
+        										 
         										player.sendMessage(String.format(ChatColor.GREEN + "Vous avez achetez " + terrain));
         										
-        										s.setLine(0, ChatColor.BLUE + "[Vendu]");
+        										s.setLine(0, ChatColor.BLUE + "[Vendu]");  												// update panneau
         										
         										s.setLine(2, ChatColor.BLUE + playerName + "'s");
         										
