@@ -84,6 +84,7 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 	
      setupPermissions();
      initialiseConfig();
+ 	 t.start();
      
      this.getCommand("bank").setExecutor(new FEcommand(this));
      this.getServer().getPluginManager().registerEvents(new FElistener(this), this);
@@ -153,4 +154,26 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 	     createTable.executeUpdate("CREATE TABLE IF NOT EXISTS RentRegion (ExpirDate DATETIME, Terrain VARCHAR(25), Compte VARCHAR(25), RentTime VARCHAR(25), Prix VARCHAR(25), Playername VARCHAR(25), World VARCHAR(25), positionX INT(35),  positionY INT(35),  positionZ INT(35))");
 	   
    }
-}
+
+   Thread t = new Thread() {
+	    @Override
+	    public void run() {
+	        while(true) {
+	            try {
+	                
+	                try {
+						RentCheck.RentExpirDateChecker();
+					} catch (SQLException e) {
+						log.severe(String.format("[%s] - Warning SQL FAIL!", new Object[] { getDescription().getName() }));
+						e.printStackTrace();
+					}
+	                Thread.sleep(1000*60*60);
+	            } catch (InterruptedException ie) {
+	            }
+	        }
+	    }
+	};
+
+ 
+ 
+ }
