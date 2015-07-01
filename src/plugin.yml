@@ -1,17 +1,21 @@
-name: FarmcraftEco
-main: fr.farmcraft.farmcraftEco.FarmcraftEco
-version: 0.1.1
+name: FarmcraftEcoTest
+main: fr.farmcraft.farmcraftEcoTest.FarmcraftEcoTest
+version: 0.1.5
 author: Farmcraft
 commands:
    bank:
      description: Acceder au compte de ville.
      permission: farmcraft.bank
      usage: |
-       /<command> [retrait/depot] [ville] [montant] ta mere
+       /<command> [retrait/depot] [ville] [montant]
+   debug:
+     description: debug.
+     usage: |
+       /<command> 
 permissions:
-	FarmcraftEco.user.Region.buy:
-		description: Autorise les joueurs a acheter des terrains
-		default : true
-	FarmcraftEco.admin.Region.create:
-		description: Autorise la creation des panneauw de vente de terrain
-		default : op
+    FarmcraftEco.user.Region.buy:
+        description: Autorise les joueurs a acheter des terrains
+        default : true
+    FarmcraftEco.admin.Region.create:
+        description: Autorise la creation des panneaux de vente de terrain
+        default : op
