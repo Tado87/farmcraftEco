@@ -33,7 +33,19 @@ public class OnSignChange implements Listener{
         	
         	if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.Region.create")){
         		
-        		event.setLine(0, ChatColor.BLUE + "[BuyRegion]");
+        		String T1 = event.getLine(1);
+        		String T2 = event.getLine(2);
+        		String T3 = event.getLine(3);
+        		
+        		if ( T1 != null && T2 != null && T3 != null && !T1.isEmpty() && !T2.isEmpty() && !T3.isEmpty()){
+        		        		
+        			event.setLine(0, ChatColor.BLUE + "[BuyRegion]");
+        			
+        			String terrain = event.getLine(1);
+        		
+        			Plugin.logToFile("[BuyRegion]: Region " + terrain +" a ete creer par: " + player.getName());
+        		
+        		}
             }
         	
         	else{
@@ -45,21 +57,31 @@ public class OnSignChange implements Listener{
         	
         	if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.Region.create")){
         		
-    			Location tmpLoc = event.getBlock().getLocation();
+        		String T1 = event.getLine(1);
+        		String T2 = event.getLine(2);
+        		String T3 = event.getLine(3);
+        		
+        		if ( T1 != null && T2 != null && T3 != null && !T1.isEmpty() && !T2.isEmpty() && !T3.isEmpty()){
+        		
+        		
+        		
+        		
+        		
+        			Location tmpLoc = event.getBlock().getLocation();
     		
-    			int positionX = tmpLoc.getBlockX();
-    			int positionY = tmpLoc.getBlockY();
-    			int positionZ = tmpLoc.getBlockZ();
+        			int positionX = tmpLoc.getBlockX();
+        			int positionY = tmpLoc.getBlockY();
+        			int positionZ = tmpLoc.getBlockZ();
     		
     		
-    			String prix = event.getLine(2);
-    			String[] data = event.getLine(3).split("/");  // Splitting account and time
-    			String compte = data[1];
-    			String rentTime = data[0];
+        			String prix = event.getLine(2);
+        			String[] data = event.getLine(3).split("/");  // Splitting account and time
+    				String compte = data[1];
+    				String rentTime = data[0];
     			
-    			World world = player.getWorld();
-    			String rg = event.getLine(1);			// getting rg name and worldname
-    			String World = world.getName();
+    				World world = player.getWorld();
+    				String rg = event.getLine(1);			// getting rg name and worldname
+    				String World = world.getName();
     			
     			
     				Statement addrental = Plugin.connection.createStatement();  // bdd add
@@ -69,6 +91,9 @@ public class OnSignChange implements Listener{
 					
 					event.setLine(3, rentTime);
 					
+					Plugin.logToFile("[RentRegion]: Region " + rg +" a ete creer par: " + player.getName());
+        		}
+
     			
         	}
     	

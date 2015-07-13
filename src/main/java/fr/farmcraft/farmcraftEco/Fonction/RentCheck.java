@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -110,7 +111,10 @@ public static void  RentExpirDateChecker() throws SQLException{
 			
 			RentCheckUpadte.executeUpdate("UPDATE `RentRegion` SET `ExpirDate`=NULL, `Playername`=NULL WHERE Terrain='" + Terrain + "'");   // update DB
 			
+			world.getBlockAt(positionX, positionY, positionZ).setTypeId(63);
+			
 			Block block = world.getBlockAt(positionX, positionY, positionZ);	// update sign
+			
 			Sign s = (Sign) block.getState();
 			
 			s.setLine(0, ChatColor.BLUE + "[RentRegion]");
@@ -123,6 +127,7 @@ public static void  RentExpirDateChecker() throws SQLException{
 			
 			s.update();
 			
+			Plugin.logToFile("[RentCheck]: Region " + Terrain +" a expirer, loueur " + playername + " expulser");
             // go to next
 		 }
 		 return;

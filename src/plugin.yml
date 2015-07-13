@@ -1,6 +1,6 @@
-name: FarmcraftEcoTest
-main: fr.farmcraft.farmcraftEcoTest.FarmcraftEcoTest
-version: 0.1.5
+name: FarmcraftEco
+main: fr.farmcraft.farmcraftEco.FarmcraftEco
+version: 0.2.0
 author: Farmcraft
 commands:
    bank:

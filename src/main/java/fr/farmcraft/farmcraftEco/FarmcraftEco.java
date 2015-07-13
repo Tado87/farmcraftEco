@@ -3,6 +3,10 @@
 import fr.farmcraft.farmcraftEco.Listener.OnInteractEvent;
 import fr.farmcraft.farmcraftEco.Listener.OnSignChange;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,6 +21,10 @@ import org.bukkit.plugin.Plugin;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
  
+
+
+
+
 
 
 
@@ -86,6 +94,24 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+     
+     getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
+     {
+         public void run()
+         {
+        	 log.info(String.format("[FarmCraftEco] - RentChecker Started"));
+        	 try {
+				RentCheck.RentExpirDateChecker();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+         }
+     }, 100L, 1200L);  //20 ticks = 1 seconds
+     
+     
+     
+     
 
    }  
    public boolean setupEconomy()
@@ -140,10 +166,49 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 	 		// TODO Auto-generated catch block
 	 		e.printStackTrace();
 	 	}
+	   log.info(String.format("[FarmCraftEco] - Mysql Started"));
 	   Statement createTable = connection.createStatement();
 	     createTable.executeUpdate("CREATE TABLE IF NOT EXISTS RentRegion (id INT NOT NULL AUTO_INCREMENT,ExpirDate DATETIME, Terrain VARCHAR(25), Compte VARCHAR(25), RentTime VARCHAR(25), Prix VARCHAR(25), Playername VARCHAR(25), World VARCHAR(25), positionX INT(35),  positionY INT(35),  positionZ INT(35), PRIMARY KEY (id))");
 	   
    }
+   public void logToFile(String message)  //logToFile("MESSAGES");
+   
+   {
+
+       try
+       {
+           File dataFolder = getDataFolder();
+           if(!dataFolder.exists())
+           {
+               dataFolder.mkdir();
+           }
+
+           File saveTo = new File(getDataFolder(), "FElog.txt");
+           if (!saveTo.exists())
+           {
+               saveTo.createNewFile();
+           }
+
+
+           FileWriter fw = new FileWriter(saveTo, true);
+
+           PrintWriter pw = new PrintWriter(fw);
+
+           pw.println(message);
+
+           pw.flush();
+
+           pw.close();
+
+       } catch (IOException e)
+       {
+
+           e.printStackTrace();
+
+       }
+
+   }
+
 
 
  }

@@ -11,8 +11,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class FEcommand implements CommandExecutor {
+	
 		public FarmcraftEco Plugin;
+		
 		public FEcommand(FarmcraftEco Instance){
+			
 			Plugin = Instance;
 		}
 		
@@ -30,7 +33,17 @@ public class FEcommand implements CommandExecutor {
 		Player player = (Player)sender;
 	    
 		if (command.getName().equalsIgnoreCase("bank")) {
+			
 	    	
+				if (args.length == 1 || args.length == 0){
+					
+						
+						player.sendMessage(String.format(ChatColor.GRAY + "usage /bank [retrait/depot/info] [Ville] ([Montant]) ", new Object[0]));
+							
+					
+				}
+					
+			
 				if (args.length == 2) {
 					
 					OfflinePlayer account = Bukkit.getServer().getOfflinePlayer(args[1]);
@@ -62,22 +75,25 @@ public class FEcommand implements CommandExecutor {
 			  
 						if (args[0].equalsIgnoreCase("retrait")){
 	        	
-								BankRetrait.Retrait(player, accountName,  account, Montant, playerName);
+								if (BankRetrait.Retrait(player, accountName,  account, Montant, playerName) == true){
+								
+									Plugin.logToFile("[BankRetrait]: " + playerName + " a retirer $" + Montant + " de la banque " + accountName);
+								
+								}
 						
 						}
 	        	
 						if (args[0].equalsIgnoreCase("depot")){
 	        	
-								BankDepot.Depot(player, accountName,  account, Montant, playerName);
+								
+								if(BankDepot.Depot(player, accountName,  account, Montant, playerName) == true){
+									
+									Plugin.logToFile("[BankDepot]: " + playerName + " a deposer $" + Montant + " dans la banque " + accountName);
+								}
+								
 	        	
 						}
 						
-						else {
-	    	   
-								player.sendMessage(String.format(ChatColor.GRAY + "usage /bank [retrait/depot/info] [Ville] ([Montant]) ", new Object[0]));
-	        
-								return true;
-						}
 	        
 				}
 				return true;

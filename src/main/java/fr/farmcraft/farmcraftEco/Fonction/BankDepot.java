@@ -39,12 +39,15 @@ public class BankDepot {
 												player.sendMessage(String.format(ChatColor.GREEN + "Vous avez deposez " + ChatColor.BLUE +  "$" + Montant + ChatColor.GREEN +  " et avez maintenant " + ChatColor.BLUE +  "%s",
 														
 														new Object[] {  FarmcraftEco.econ.format( FarmcraftEco.econ.getBalance(playerName)) }));
+												return true;
+												
 						
 										}
 					
 										else {
 						
 												player.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { r.errorMessage }));
+												return false;
 							
 										}
 					
@@ -53,6 +56,7 @@ public class BankDepot {
 								else {
 					
 										player.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { t.errorMessage }));
+										return false;
 					
 								}
 				
@@ -61,6 +65,7 @@ public class BankDepot {
 						else {
 				
 								player.sendMessage(String.format(ChatColor.RED + "Fonds insuffisant!!!", new Object[0]));
+								return false;
 				
 						}
 			
@@ -69,10 +74,10 @@ public class BankDepot {
 				else {
     	   
 						player.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions pour la bank " + accountName, new Object[0]));
+						return false;
     	   
 				}
     	
-				return true;
     
 		}
 	

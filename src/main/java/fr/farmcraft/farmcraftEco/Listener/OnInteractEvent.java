@@ -72,6 +72,8 @@ public class OnInteractEvent implements Listener{
         										s.setLine(2, ChatColor.BLUE + playerName + "'s");
         										
         										s.update();
+        										
+        										Plugin.logToFile("[BuyRegion]: Region " + terrain +" a ete acheter par: " + player.getName());
 							
         								}
         								
@@ -160,6 +162,8 @@ public class OnInteractEvent implements Listener{
         									s.setLine(3, ChatColor.BLUE + expirDate);
         									
         									s.update();
+        									
+        									Plugin.logToFile("[RentRegion]: Region " + terrain +" a ete louer par: " + player.getName());
         				
         							}
         							
