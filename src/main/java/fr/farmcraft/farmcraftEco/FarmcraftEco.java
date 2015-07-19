@@ -86,6 +86,7 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
      this.getCommand("debug").setExecutor(new RentCheck(this));
      this.getCommand("bank").setExecutor(new FEcommand(this));
      this.getCommand("brc").setExecutor(new CreateBR(this));
+     this.getCommand("rrc").setExecutor(new CreateRR(this));
      this.getServer().getPluginManager().registerEvents(new OnSignChange(this), this);
      this.getServer().getPluginManager().registerEvents(new OnInteractEvent(this), this);
      

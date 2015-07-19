@@ -17,6 +17,11 @@ commands:
      permission: farmcraft.brc
      usage: |
        /<command> [Ville] [Nom de la region] [prix]
+   rrc:
+     description: Create Buyregion.
+     permission: farmcraft.rrc
+     usage: |
+       /<command> [Ville] [Nom de la region] [prix] [Nombre de jours]
 permissions:
     FarmcraftEco.user.Region.buy:
         description: Autorise les joueurs a acheter des terrains

@@ -1,5 +1,8 @@
 package fr.farmcraft.farmcraftEco.Fonction;
 
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -30,12 +33,12 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion.CircularInheritan
 
 import fr.farmcraft.farmcraftEco.FarmcraftEco;
 
-public class CreateBR implements CommandExecutor {
+public class CreateRR implements CommandExecutor {
 	
 	
 	public FarmcraftEco Plugin;
 	
-	public CreateBR(FarmcraftEco Instance){
+	public CreateRR(FarmcraftEco Instance){
 		
 		Plugin = Instance;
 	}
@@ -54,10 +57,10 @@ public class CreateBR implements CommandExecutor {
 		
 		
 		
-		if (command.getName().equalsIgnoreCase("brc")) {
+		if (command.getName().equalsIgnoreCase("rrc")) {
 			
 			
-			if (args.length ==3){
+			if (args.length == 4){
 				
 			
 					String Town = args[0];
@@ -65,6 +68,8 @@ public class CreateBR implements CommandExecutor {
 					String Name = args[1];
 					
 					String prix = args[2];
+					
+					String rentTime = args[3];
 					
 					Player player = (Player)sender;
 					
@@ -102,7 +107,7 @@ public class CreateBR implements CommandExecutor {
 									nameUseCheckResult = true;
 							}
 							
-							if (FarmcraftEco.perms.has(player, "FarmcraftEco.user.BRC." + Town)){
+							if (FarmcraftEco.perms.has(player, "FarmcraftEco.user.RRC." + Town)){
 						
 									if (nameUseCheckResult == true &&  success == true){
 					
@@ -192,25 +197,46 @@ public class CreateBR implements CommandExecutor {
 
 												}
 												
-												player.sendMessage(String.format(ChatColor.GREEN + "Region  " + Name + " mis en vente pour un prix de " + prix + " au profit de la ville " + Town));
+												player.sendMessage(String.format(ChatColor.GREEN + "Region  " + Name + " mis en location pour un prix de " + prix + " au profit de la ville " + Town));
 						
 												player.getWorld().getBlockAt(loc).setTypeId(63);
 						
-												Block block = player.getWorld().getBlockAt(loc);	// update sign
+												Block block = player.getWorld().getBlockAt(loc);
+																								// update sign
+									    		
+							        			int positionX = loc.getBlockX();
+							        			int positionY = loc.getBlockY();
+							        			int positionZ = loc.getBlockZ();
+							    		
+
+							    				String compte = Town;
+							    			
+							    				String rg = Name;	
+							    											// getting rg name and worldname
+							    				String World = world.getName();
+							    				
+							    				
+												try {
+													Statement addrental = Plugin.connection.createStatement();  // bdd add
+													addrental.executeUpdate("INSERT INTO `RentRegion` (`ExpirDate`, `Terrain`, `Compte`, `RentTime`, `Prix`, `Playername`, `World`, `positionX`, `positionY`, `positionZ`) VALUES (NULL, '" + rg + "', '" + compte + "', '" + rentTime + "', '" + prix + "', NULL, '" + World + "', '" + positionX + "', '" + positionY + "', '" + positionZ + "');");
+												} catch (SQLException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
 						
 												Sign s = (Sign) block.getState();
 						
-												s.setLine(0, ChatColor.BLUE + "[BuyRegion]");
+												s.setLine(0, ChatColor.BLUE + "[RentRegion]");
 						
 												s.setLine(1, Name);													
 						
 												s.setLine(2, prix);
 						
-												s.setLine(3, Town);
+												s.setLine(3, rentTime);
 						
 												s.update();
 												
-												Plugin.logToFile("[BuyRegion]: Region " + Name +" a ete creer par: " + player.getName());
+												Plugin.logToFile("[RentRegion]: Region " + rg +" a ete creer par: " + player.getName());
 						
 												return true;
 
@@ -238,5 +264,4 @@ public class CreateBR implements CommandExecutor {
 				
 
 	}
-
 }
