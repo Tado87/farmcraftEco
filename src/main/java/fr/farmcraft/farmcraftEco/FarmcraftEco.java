@@ -35,6 +35,8 @@ import net.milkbowl.vault.permission.Permission;
 
 
 
+
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
  public class FarmcraftEco extends JavaPlugin implements Listener
@@ -83,6 +85,7 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
  	 
      this.getCommand("debug").setExecutor(new RentCheck(this));
      this.getCommand("bank").setExecutor(new FEcommand(this));
+     this.getCommand("brc").setExecutor(new CreateBR(this));
      this.getServer().getPluginManager().registerEvents(new OnSignChange(this), this);
      this.getServer().getPluginManager().registerEvents(new OnInteractEvent(this), this);
      
@@ -142,7 +145,16 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 	 
 	    return (WorldGuardPlugin) plugin;
 	}
-   
+   public WorldEditPlugin getWorldEdit() {
+	   
+	   Plugin plugin = getServer().getPluginManager().getPlugin("WorldEdit");
+	   
+	   if (plugin == null || !(plugin instanceof WorldEditPlugin)) {
+	        return null; // Maybe you want throw an exception instead
+	    }
+	 
+	    return (WorldEditPlugin) plugin;
+	}
    private void initialiseConfig(){
 	   FileConfiguration cfg = getConfig(); 
 	   

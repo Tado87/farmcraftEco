@@ -12,6 +12,11 @@ commands:
      description: debug.
      usage: |
        /<command> 
+   brc:
+     description: Create Buyregion.
+     permission: farmcraft.brc
+     usage: |
+       /<command> [Ville] [Nom de la region] [prix]
 permissions:
     FarmcraftEco.user.Region.buy:
         description: Autorise les joueurs a acheter des terrains
