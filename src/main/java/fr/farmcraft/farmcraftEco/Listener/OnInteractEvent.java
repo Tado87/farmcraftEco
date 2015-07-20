@@ -105,7 +105,7 @@ public class OnInteractEvent implements Listener{
                 
                 else if(s.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[RentRegion]")){
 				
-        			if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.Region.buy")){
+        			if (FarmcraftEco.perms.has(player, "FarmcraftEco.user.Region.rent")){
         				
         				String terrain = s.getLine(1);
         				String rentTime = s.getLine(3);

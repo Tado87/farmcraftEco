@@ -1,6 +1,6 @@
 name: FarmcraftEco
 main: fr.farmcraft.farmcraftEco.FarmcraftEco
-version: 0.2.0
+version: 0.4.0
 author: Farmcraft
 commands:
    bank:
@@ -8,10 +8,6 @@ commands:
      permission: farmcraft.bank
      usage: |
        /<command> [retrait/depot] [ville] [montant]
-   debug:
-     description: debug.
-     usage: |
-       /<command> 
    brc:
      description: Create Buyregion.
      permission: farmcraft.brc
@@ -22,10 +18,30 @@ commands:
      permission: farmcraft.rrc
      usage: |
        /<command> [Ville] [Nom de la region] [prix] [Nombre de jours]
+   mayor:
+     description: Put a player into the mayor group.
+     permission: FarmcraftEco.admin.mayor
+     usage: |
+       /<command> [add/remove] [Ville] [playername]
+   RentCheck:
+     description: Debug Rentcheck.
+     permission: FarmcraftEco.admin.RentCheck
+     usage: |
+       /<command> 
+   
 permissions:
     FarmcraftEco.user.Region.buy:
         description: Autorise les joueurs a acheter des terrains
         default : true
+    FarmcraftEco.user.Region.rent:
+        description: Autorise les joueurs a acheter des terrains
+        default : true
     FarmcraftEco.admin.Region.create:
         description: Autorise la creation des panneaux de vente de terrain
+        default : op
+    FarmcraftEco.admin.mayor:
+        description: Permet d'ajouter un maire
+        default : op
+    FarmcraftEco.admin.RentCheck:
+        description: RentChecker
         default : op

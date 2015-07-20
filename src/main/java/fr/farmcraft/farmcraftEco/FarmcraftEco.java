@@ -18,9 +18,11 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.Plugin;
 
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
  
+
 
 
 
@@ -45,7 +47,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 	 
 public static final Logger log = Logger.getLogger("Minecraft");
 
-
+public static Chat chat = null;
 public static Economy econ = null;
 public static Permission perms = null;
 
@@ -79,14 +81,15 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
        getServer().getPluginManager().disablePlugin(this);
        return;
      }
-	
+	 setupChat();
      setupPermissions();
      initialiseConfig();
- 	 
-     this.getCommand("debug").setExecutor(new RentCheck(this));
+     
+     this.getCommand("RentCheck").setExecutor(new RentCheck(this));
      this.getCommand("bank").setExecutor(new FEcommand(this));
      this.getCommand("brc").setExecutor(new CreateBR(this));
      this.getCommand("rrc").setExecutor(new CreateRR(this));
+     this.getCommand("mayor").setExecutor(new Mayor(this));
      this.getServer().getPluginManager().registerEvents(new OnSignChange(this), this);
      this.getServer().getPluginManager().registerEvents(new OnInteractEvent(this), this);
      
@@ -111,7 +114,7 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
 				e.printStackTrace();
 			}
          }
-     }, 100L, 1200L);  //20 ticks = 1 seconds
+     }, 600L, 72000L);  //20 ticks = 1 seconds
      
      
      
@@ -135,6 +138,15 @@ log.info(String.format("[%s] Disabled Version %s", new Object[] { getDescription
     RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
     perms = (Permission)rsp.getProvider();
 	return perms != null;
+   }
+   private boolean setupChat()
+   
+   {
+       RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+       if (chatProvider != null) {
+           chat = chatProvider.getProvider();
+       }
+       return (chat != null);
    }
    public WorldGuardPlugin getWorldGuard() {
 	    Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");

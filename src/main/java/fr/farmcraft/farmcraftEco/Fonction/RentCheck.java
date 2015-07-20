@@ -39,17 +39,24 @@ public class RentCheck implements CommandExecutor {
 				return true;
 	      
 			}
-	    
-			if (command.getName().equalsIgnoreCase("debug")) {
+			Player player = (Player)sender;
+			
+			if (command.getName().equalsIgnoreCase("RentCheck")) {
 				
-				try {
-					RentExpirDateChecker();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (Plugin.perms.has(player, "FarmcraftEco.admin.RentCheck")){
+					
+				
+				
+					try {
+						RentExpirDateChecker();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+					return true;
 				}
-				
-			return true;
+				return false;
 			}
 			
 		return false;
