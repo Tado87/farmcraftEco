@@ -17,7 +17,7 @@ public class BankInfo {
 	
 	
 	
-	
+	@SuppressWarnings("deprecation")
 	public static Boolean Info(Player player, String accountName, OfflinePlayer account) {
 		
 			String playerName = player.getName();

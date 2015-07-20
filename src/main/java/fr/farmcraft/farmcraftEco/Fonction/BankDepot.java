@@ -17,7 +17,7 @@ public class BankDepot {
 				Plugin = Instance;
 	}
 	
-	
+		@SuppressWarnings("deprecation")
 		public static Boolean Depot(Player player, String accountName, OfflinePlayer account, Double Montant, String playerName) {
 			
 				if ( FarmcraftEco.perms.has(player, "FarmcraftEco.user.bank." + accountName)){

@@ -19,7 +19,7 @@ public class BankRetrait {
 		}
 	
 	
-	
+		@SuppressWarnings("deprecation")
 		public static Boolean Retrait(Player player, String accountName, OfflinePlayer account, Double Montant, String playerName) {
 			
 				if ( FarmcraftEco.perms.has(player, "FarmcraftEco.user.bank." + accountName)){

@@ -17,9 +17,18 @@ public class Mayor implements CommandExecutor{
 		Plugin = Instance;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
 	
 	{
+		
+		if (!(sender instanceof Player)) {
+	    	
+			FarmcraftEco.log.info("Seuls les joueurs peuvent utilisés cette commande");
+      
+			return true;
+      
+		}
 	   
 		if (command.getName().equalsIgnoreCase("Mayor")) {
 			
@@ -33,25 +42,26 @@ public class Mayor implements CommandExecutor{
 				
 				Player player = (Player)sender;
 				
-				if (Plugin.perms.has(player, "FarmcraftEco.admin.mayor")){
+				if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.mayor")){
 					
 					if (args[0].equalsIgnoreCase("add")){
 					
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "FarmcraftEco.user.RRC." + Town);
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "farmcraft.rrc");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "FarmcraftEco.user.RRC." + Town);
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "farmcraft.rrc");
 					
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "FarmcraftEco.user.BRC." + Town);
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "farmcraft.brc");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "FarmcraftEco.user.BRC." + Town);
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "farmcraft.brc");
 					
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "FarmcraftEco.user.bank." + Town);
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "farmcraft.bank");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "FarmcraftEco.user.bank." + Town);
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "farmcraft.bank");
 					
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.selection.pos");
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.wand");
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.wand.toggle");
-						Plugin.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.selection.expand");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.selection.pos");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.wand");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.wand.toggle");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.selection.expand");
+						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldguard.region.wand");
 						
-						Plugin.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Mayor" + Town +"]" );
+						FarmcraftEco.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Mayor" + Town +"]" );
 					
 					
 						Plugin.logToFile("[Mayor]: player " + PlayerName +" a ete fait maire par : " + player.getName());
@@ -61,21 +71,21 @@ public class Mayor implements CommandExecutor{
 					
 					else if(args[0].equalsIgnoreCase("remove")){
 						
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "FarmcraftEco.user.RRC." + Town);
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "farmcraft.rrc");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "FarmcraftEco.user.RRC." + Town);
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "farmcraft.rrc");
 					
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "FarmcraftEco.user.BRC." + Town);
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "farmcraft.brc");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "FarmcraftEco.user.BRC." + Town);
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "farmcraft.brc");
 					
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "FarmcraftEco.user.bank." + Town);
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "farmcraft.bank");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "FarmcraftEco.user.bank." + Town);
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "farmcraft.bank");
 					
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.selection.pos");
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.wand");
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.wand.toggle");
-						Plugin.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.selection.expand");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.selection.pos");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.wand");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.wand.toggle");
+						FarmcraftEco.perms.playerRemove(player.getWorld(), PlayerName, "worldedit.selection.expand");
 						
-						Plugin.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Membre]" );
+						FarmcraftEco.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Membre]" );
 						
 						
 					

@@ -25,7 +25,7 @@ public class OnInteractEvent implements Listener{
 	public OnInteractEvent(FarmcraftEco Instance){
 		Plugin = Instance;
 	}
-	
+	@SuppressWarnings("deprecation")
 	@EventHandler
     public void onInteract(PlayerInteractEvent e) throws SQLException{
 		

@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -27,7 +26,6 @@ public class RentCheck implements CommandExecutor {
 			Plugin = Instance;
 		
 		}
-		
 		public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
 		{
 			
@@ -43,7 +41,7 @@ public class RentCheck implements CommandExecutor {
 			
 			if (command.getName().equalsIgnoreCase("RentCheck")) {
 				
-				if (Plugin.perms.has(player, "FarmcraftEco.admin.RentCheck")){
+				if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.RentCheck")){
 					
 				
 				
@@ -61,6 +59,7 @@ public class RentCheck implements CommandExecutor {
 			
 		return false;
 		}
+@SuppressWarnings("deprecation")
 public static void  RentExpirDateChecker() throws SQLException{
 			
 			String Terrain = "";
@@ -94,9 +93,6 @@ public static void  RentExpirDateChecker() throws SQLException{
 			
 			
 			World world = Bukkit.getServer().getWorld(worldBdd);						// get the object we need
-			
-			OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(playername);   
-			
 			 
 			positionX = CR.getInt("positionX");
 	

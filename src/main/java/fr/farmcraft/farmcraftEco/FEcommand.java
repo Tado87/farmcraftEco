@@ -18,7 +18,7 @@ public class FEcommand implements CommandExecutor {
 			
 			Plugin = Instance;
 		}
-		
+		@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
 	{
 		   

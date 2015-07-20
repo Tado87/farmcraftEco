@@ -2,7 +2,6 @@ package fr.farmcraft.farmcraftEco.Fonction;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -39,7 +38,7 @@ public class CreateBR implements CommandExecutor {
 		
 		Plugin = Instance;
 	}
-	
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
 	
 	{
@@ -67,8 +66,6 @@ public class CreateBR implements CommandExecutor {
 					String prix = args[2];
 					
 					Player player = (Player)sender;
-					
-					World world = player.getWorld();
 			
 					Location loc = player.getLocation();
 					
