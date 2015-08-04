@@ -180,15 +180,113 @@ public class OnInteractEvent implements Listener{
 						}
         			
 						else {
+							
 							player.sendMessage(String.format(ChatColor.RED + "Fonds insuffisant!!!", new Object[0]));
 						}		
         			
 					}
 					else{
+						
         				player.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions", new Object[0]));
 					}
 				return ;
 
+				}
+                else if(s.getLine(0).equalsIgnoreCase(ChatColor.BLUE + "[RentedRegion]")){
+                	
+                	if (FarmcraftEco.perms.has(player, "FarmcraftEco.user.Region.rent")){
+                		
+                		String terrain = s.getLine(1);
+                		
+                		Statement BuyRentedRegion = Plugin.connection.createStatement();
+        				
+        				ResultSet GR = BuyRentedRegion.executeQuery("SELECT * FROM `RentRegion` WHERE Terrain ='" + terrain + "'");
+        				
+        				GR.next();
+        				
+        				if(GR.getString("Playername") != null && GR.getString("Prix") != null && GR.getString("RentTime") != null && GR.getString("Terrain") != null && GR.getString("Compte") != null){
+        					
+        				String Playername = GR.getString("Playername");
+        				String Prix = GR.getString("Prix");
+        				String RentTime = GR.getString("RentTime");
+        				String Terrain = GR.getString("Terrain");
+        				String Compte = GR.getString("Compte");
+        				
+        					if(s.getLine(2).equalsIgnoreCase(ChatColor.GREEN  + Playername) && Playername.equalsIgnoreCase(player.getName())){
+        						
+                				if (FarmcraftEco.econ.has(player, Double.parseDouble(Prix))) {
+                        			
+                					EconomyResponse t = FarmcraftEco.econ.withdrawPlayer(player, Double.parseDouble(Prix));
+                		
+                					if (t.transactionSuccess()) {
+                						
+                							EconomyResponse r = FarmcraftEco.econ.depositPlayer(Compte, Double.parseDouble(Prix));
+                			
+                							if (r.transactionSuccess()) {
+                								
+                									String expirDate = null;
+                									
+                									BuyRentedRegion.executeUpdate("UPDATE `RentRegion` SET `ExpirDate`= DATE_ADD( ExpirDate, INTERVAL '" + RentTime +"' DAY ), `Playername`='" +playerName +"' WHERE Terrain='"+ Terrain +"';");
+                									
+                									ResultSet ED = BuyRentedRegion.executeQuery("SELECT * FROM `RentRegion` WHERE Terrain ='" + Terrain + "'");
+                									ED.next();
+                			        				if(ED.getString("ExpirDate") != null){
+                			        					
+                			        					 expirDate = ED.getString("ExpirDate");
+                			            				
+                			            				}
+                									
+                									player.sendMessage(String.format(ChatColor.GREEN + "Vous avez relouez " + Terrain + " pour " + Prix + "$"));
+                									
+                									s.setLine(0, ChatColor.BLUE + "[RentedRegion]");
+                									
+                									s.setLine(2, ChatColor.GREEN + playerName);
+                									
+                									s.setLine(3, ChatColor.BLUE + expirDate);
+                									
+                									s.update();
+                									
+                									Plugin.logToFile("[RentRegion]: Region " + Terrain +" a ete relouer par: " + player.getName());
+                				
+                							}
+                							
+                							else {
+                								
+                									player.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { r.errorMessage }));
+                							}
+                					}
+                					
+                					else {
+                							player.sendMessage(String.format(ChatColor.RED + "ERROR: %s", new Object[] { t.errorMessage }));
+                					}
+                					
+        						}
+                			
+        						else {
+        							
+        							player.sendMessage(String.format(ChatColor.RED + "Fonds insuffisant!!!", new Object[0]));
+        						}
+                				
+        						
+        					}
+            				else{
+        						
+                				player.sendMessage(String.format(ChatColor.RED + "Vous netes pas le locataire de cette region", new Object[0]));
+        					}
+        					
+        				
+        				}
+        				else{
+    						
+            				player.sendMessage(String.format(ChatColor.RED + "data missing from the bdd", new Object[0]));
+    					}
+                		
+                		
+                	}
+					else{
+						
+        				player.sendMessage(String.format(ChatColor.RED + "Vous navez pas les permissions", new Object[0]));
+					}
 				}
 
             }

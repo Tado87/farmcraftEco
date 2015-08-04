@@ -6,6 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+
 import fr.farmcraft.farmcraftEco.FarmcraftEco;
 
 public class Mayor implements CommandExecutor{
@@ -42,6 +45,8 @@ public class Mayor implements CommandExecutor{
 				
 				Player player = (Player)sender;
 				
+				WorldGuardPlugin worldGuard = Plugin.getWorldGuard();
+				
 				if (FarmcraftEco.perms.has(player, "FarmcraftEco.admin.mayor")){
 					
 					if (args[0].equalsIgnoreCase("add")){
@@ -62,7 +67,11 @@ public class Mayor implements CommandExecutor{
 						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldguard.region.wand");
 						
 						FarmcraftEco.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Mayor" + Town +"]" );
-					
+						
+						RegionManager regionManager = worldGuard.getRegionManager(player.getWorld());
+						regionManager.getRegion(Town).getOwners().addPlayer(player.getName());
+						
+						player.sendMessage(String.format(ChatColor.GREEN + "Player " + PlayerName + "a ete fait maire de la ville " + Town));
 					
 						Plugin.logToFile("[Mayor]: player " + PlayerName +" a ete fait maire par : " + player.getName());
 					
@@ -87,8 +96,10 @@ public class Mayor implements CommandExecutor{
 						
 						FarmcraftEco.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Membre]" );
 						
+						RegionManager regionManager = worldGuard.getRegionManager(player.getWorld());
+						regionManager.getRegion(Town).getOwners().addPlayer(player.getName());
 						
-					
+						player.sendMessage(String.format(ChatColor.GREEN + "Player " + PlayerName + "a ete defait de sa fonction de maire de la ville " + Town));
 					
 						Plugin.logToFile("[Mayor]: player " + PlayerName +" a ete defait de ses fonctions par par : " + player.getName());
 					
