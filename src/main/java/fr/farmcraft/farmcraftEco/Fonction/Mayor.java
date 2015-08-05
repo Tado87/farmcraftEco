@@ -66,8 +66,6 @@ public class Mayor implements CommandExecutor{
 						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldedit.selection.expand");
 						FarmcraftEco.perms.playerAdd(player.getWorld(), PlayerName, "worldguard.region.wand");
 						
-						FarmcraftEco.chat.setPlayerPrefix(player.getWorld(), PlayerName, "[Mayor" + Town +"]" );
-						
 						RegionManager regionManager = worldGuard.getRegionManager(player.getWorld());
 						regionManager.getRegion(Town).getOwners().addPlayer(player.getName());
 						
